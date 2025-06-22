@@ -13,7 +13,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tx_hash", length = 64, nullable = false, unique = true)
+    @Column(name = "tx_hash", length = 64, unique = true)
     private String txHash;
 
     @Column
@@ -27,6 +27,9 @@ public class Transaction {
 
     @Column(name = "to_address", length = 42)
     private String toAddress;
+
+    @Column(name = "endorser")
+    private String endorser;
 
     @Column(name = "uuid", nullable = false)
     private String uuid;

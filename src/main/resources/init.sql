@@ -39,11 +39,12 @@ CREATE TABLE blocks (
 
 CREATE TABLE transactions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    tx_hash VARCHAR(64) NOT NULL UNIQUE,
+    tx_hash VARCHAR(64) NULL UNIQUE,
     block_id BIGINT NULL,
     block_number BIGINT NULL,
     from_address VARCHAR(42) NOT NULL,
     to_address VARCHAR(42),
+    endorser VARCHAR(42),
     uuid VARCHAR(36) NOT NULL UNIQUE,
     input_data TEXT,
     status VARCHAR(7) NOT NULL,

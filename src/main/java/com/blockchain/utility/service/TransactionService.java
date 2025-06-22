@@ -2,6 +2,7 @@ package com.blockchain.utility.service;
 
 
 import com.blockchain.utility.model.vo.request.CreateTransactionRequest;
+import com.blockchain.utility.model.vo.request.UpdateTransactionRequest;
 
 import java.util.List;
 
@@ -31,4 +32,12 @@ public interface TransactionService {
      * @return the object
      */
     Object addTransaction(CreateTransactionRequest createTransactionRequest);
+
+    /**
+     * Update transaction object.
+     *
+     * @param updateTransactionRequest the update transaction request
+     * @return the object
+     */
+    Object updateTransaction(UpdateTransactionRequest updateTransactionRequest);
 } 
