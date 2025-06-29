@@ -43,6 +43,18 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                                              @Param("startTime") LocalDateTime startTime, 
                                              @Param("endTime") LocalDateTime endTime);
     
+    /**
+     * 查找所有Active状态的交易（未打包到区块中的交易）
+     */
+    @Query("SELECT t FROM Transaction t WHERE t.status = 'A' AND t.blockId IS NULL ORDER BY t.createdAt ASC")
+    List<Transaction> findActiveTransactionsForBlocking();
+    
+    /**
+     * 统计Active状态的交易数量
+     */
+    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.status = 'A' AND t.blockId IS NULL")
+    Long countActiveTransactionsForBlocking();
+    
     boolean existsByUuid(String uuid);
     
     boolean existsByTxHash(String txHash);
