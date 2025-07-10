@@ -47,7 +47,7 @@ public class DatabaseConfig {
         // Connection properties
         config.addDataSourceProperty("useSSL", "false");
         config.addDataSourceProperty("allowPublicKeyRetrieval", "true");
-        config.addDataSourceProperty("serverTimezone", "UTC");
+        config.addDataSourceProperty("serverTimezone", "UTC+8");
         config.addDataSourceProperty("useUnicode", "true");
         config.addDataSourceProperty("characterEncoding", "utf8");
         config.addDataSourceProperty("cachePrepStmts", "true");

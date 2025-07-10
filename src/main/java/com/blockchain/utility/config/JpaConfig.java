@@ -30,14 +30,19 @@ public class JpaConfig {
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.use_sql_comments", "true");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.jdbc.batch_size", "20");
-        properties.setProperty("hibernate.order_inserts", "true");
-        properties.setProperty("hibernate.order_updates", "true");
+        
+        // 自动提交配置
+        properties.setProperty("hibernate.connection.autocommit", "true");
+        properties.setProperty("hibernate.jdbc.batch_size", "1"); // 禁用批处理，立即执行
+        properties.setProperty("hibernate.order_inserts", "false");
+        properties.setProperty("hibernate.order_updates", "false");
+        
+        // 连接隔离级别 - 读已提交，适合自动提交模式
         properties.setProperty("hibernate.connection.isolation", "2");
-        properties.setProperty("hibernate.connection.autocommit", "false");
+        
         properties.setProperty("hibernate.cache.use_second_level_cache", "false");
         properties.setProperty("hibernate.cache.use_query_cache", "false");
-        properties.setProperty("hibernate.jdbc.time_zone", "UTC");
+        properties.setProperty("hibernate.jdbc.time_zone", "UTC+8");
         
         em.setJpaProperties(properties);
 

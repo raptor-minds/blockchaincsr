@@ -2,6 +2,7 @@ package com.blockchain.utility.model.entity;
 
 import lombok.Data;
 import jakarta.persistence.*;
+import com.blockchain.utility.util.TimeUtil;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,12 +42,12 @@ public class Block {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = TimeUtil.now();
+        updatedAt = TimeUtil.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = TimeUtil.now();
     }
 } 

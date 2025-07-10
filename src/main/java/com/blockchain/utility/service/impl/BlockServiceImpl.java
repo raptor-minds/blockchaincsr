@@ -6,10 +6,10 @@ import com.blockchain.utility.repository.BlockRepository;
 import com.blockchain.utility.repository.TransactionRepository;
 import com.blockchain.utility.service.BlockService;
 import com.blockchain.utility.util.StringUtil;
+import com.blockchain.utility.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +29,6 @@ public class BlockServiceImpl implements BlockService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    @Transactional
     public Block generateBlock(List<Transaction> transactions) {
         if (transactions == null || transactions.isEmpty()) {
             log.warn("No transactions provided for block generation");
@@ -50,16 +49,16 @@ public class BlockServiceImpl implements BlockService {
         newBlock.setBlockNumber(nextBlockNumber);
         newBlock.setBlockHash(blockHash);
         newBlock.setParentHash(parentHash);
-        newBlock.setTimestamp(LocalDateTime.now());
+        newBlock.setTimestamp(TimeUtil.now());
         newBlock.setSize((long) transactions.size());
         newBlock.setNonce(generateNonce());
         
-        // 保存区块
+        // 保存区块 - 自动提交
         Block savedBlock = blockRepository.save(newBlock);
         log.info("Generated new block: BlockNumber={}, BlockHash={}, TransactionCount={}", 
                 savedBlock.getBlockNumber(), savedBlock.getBlockHash(), transactions.size());
         
-        // 更新交易的区块信息
+        // 更新交易的区块信息 - 每个交易都会立即提交
         updateTransactionsBlockInfo(transactions, savedBlock.getId(), savedBlock.getBlockNumber());
         
         return savedBlock;
@@ -85,7 +84,6 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
-    @Transactional
     public void checkAndGenerateBlock() {
         log.info("=== 开始检查Active交易并生成区块 ===");
         
@@ -143,7 +141,7 @@ public class BlockServiceImpl implements BlockService {
             data.append(transaction.getTxHash());
         }
         
-        data.append(LocalDateTime.now().toString());
+        data.append(TimeUtil.now().toString());
         
         return StringUtil.applySha256(data.toString());
     }
@@ -156,12 +154,13 @@ public class BlockServiceImpl implements BlockService {
     }
 
     /**
-     * 更新交易的区块信息
+     * 更新交易的区块信息 - 每个交易都会立即提交到数据库
      */
     private void updateTransactionsBlockInfo(List<Transaction> transactions, Long blockId, Long blockNumber) {
         for (Transaction transaction : transactions) {
             transaction.setBlockId(blockId);
             transaction.setBlockNumber(blockNumber);
+            // 每个保存操作都会立即提交
             transactionRepository.save(transaction);
         }
         log.info("Updated {} transactions with block info: BlockId={}, BlockNumber={}", 

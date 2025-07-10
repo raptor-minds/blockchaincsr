@@ -2,6 +2,7 @@ package com.blockchain.utility.model.entity;
 
 import lombok.Data;
 import jakarta.persistence.*;
+import com.blockchain.utility.util.TimeUtil;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -45,6 +46,6 @@ public class Transaction {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        createdAt = TimeUtil.now();
     }
 } 

@@ -7,11 +7,13 @@ import com.blockchain.utility.model.vo.request.UpdateTransactionRequest;
 import com.blockchain.utility.repository.TransactionRepository;
 import com.blockchain.utility.service.TransactionService;
 import com.blockchain.utility.util.StringUtil;
+import com.blockchain.utility.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +37,6 @@ public class TransactionServiceImpl implements TransactionService {
         return null;
     }
 
-    @Transactional
     @Override
     public Object addTransaction(CreateTransactionRequest createTransactionRequest) {
 
@@ -46,15 +47,22 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction();
         transaction.setFromAddress(createTransactionRequest.getSender());
         transaction.setToAddress(createTransactionRequest.getRecipient());
-        transaction.setCreatedAt(createTransactionRequest.getCreatedTime().atStartOfDay());
+        
+        // 如果请求中没有提供createdTime，使用当前UTC+8时间
+        if (createTransactionRequest.getCreatedTime() != null) {
+            transaction.setCreatedAt(createTransactionRequest.getCreatedTime().atStartOfDay());
+        } else {
+            transaction.setCreatedAt(TimeUtil.now());
+        }
+        
         transaction.setStatus(TransactionStatus.DE_ACTIVE.getStatus());
         transaction.setUuid(createTransactionRequest.getUuid().toString());
 
+        // 保存交易 - 自动提交
         transactionRepository.save(transaction);
         return transaction.getUuid();
     }
 
-    @Transactional
     @Override
     public Object updateTransaction(UpdateTransactionRequest updateTransactionRequest) {
         // Find the transaction by ID
@@ -77,7 +85,8 @@ public class TransactionServiceImpl implements TransactionService {
         String txHash = calculateHash(updateTransactionRequest.getSender(), updateTransactionRequest.getTransactionId(),
                 updateTransactionRequest.getEndorser(), updateTransactionRequest.getTransaction().toString());
         transaction.setTxHash(txHash);
-        // Save the updated transaction
+        
+        // Save the updated transaction - 自动提交
         Transaction savedTransaction = transactionRepository.save(transaction);
         log.info("Transaction updated successfully with ID: {}", savedTransaction.getId());
         
