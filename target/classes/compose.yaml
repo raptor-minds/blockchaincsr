@@ -4,7 +4,7 @@ services:
     image: mysql:8.0
     container_name: mysql-server
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: iMd49mc4~*(>
       MYSQL_DATABASE: blockchain
       MYSQL_USER: csr
       MYSQL_PASSWORD: ocbcCSR
