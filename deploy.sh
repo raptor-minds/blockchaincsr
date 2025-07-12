@@ -23,7 +23,6 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# 日志函数
 log_info() { echo -e "${GREEN}[INFO]${NC} $1"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
@@ -36,11 +35,47 @@ check_java() {
         log_error "Java未安装"
         exit 1
     fi
-    if ! command -v mvn &> /dev/null; then
-        log_error "Maven未安装"
+    log_info "Java环境检查通过"
+}
+
+# 检查Maven环境
+check_maven() {
+    log_step "检查Maven环境..."
+    
+    # 首先检查Maven Wrapper
+    if [ -f "./mvnw" ]; then
+        chmod +x ./mvnw
+        MVN_CMD="./mvnw"
+        log_info "使用Maven Wrapper"
+        return 0
+    fi
+    
+    # 检查系统Maven
+    if command -v mvn &> /dev/null; then
+        MVN_VERSION=$(mvn -version 2>&1 | grep "Apache Maven" | cut -d' ' -f3)
+        log_info "系统Maven版本: $MVN_VERSION"
+        
+        # 检查版本是否满足要求
+        if [[ "$MVN_VERSION" == 3.6.3* ]] || [[ "$MVN_VERSION" == 3.7* ]] || [[ "$MVN_VERSION" == 3.8* ]] || [[ "$MVN_VERSION" == 3.9* ]]; then
+            MVN_CMD="mvn"
+            log_info "Maven版本满足要求"
+            return 0
+        else
+            log_warn "Maven版本过低，尝试创建Maven Wrapper..."
+            if mvn wrapper:wrapper -Dmaven=3.9.6; then
+                chmod +x ./mvnw
+                MVN_CMD="./mvnw"
+                log_info "Maven Wrapper创建成功"
+                return 0
+            else
+                log_error "无法创建Maven Wrapper，请升级Maven到3.6.3+"
+                exit 1
+            fi
+        fi
+    else
+        log_error "Maven未安装且没有Maven Wrapper"
         exit 1
     fi
-    log_info "Java环境检查通过"
 }
 
 # 创建目录
@@ -78,20 +113,14 @@ backup_current() {
 # 构建项目
 build_project() {
     log_step "构建项目..."
-    mvn clean package -DskipTests -P$PROFILE
+    $MVN_CMD clean package -DskipTests -P$PROFILE
     log_info "构建完成"
 }
 
 # 复制JAR文件
 copy_jar() {
     log_step "复制JAR文件..."
-    if [ -f "$TARGET_DIR/$JAR_NAME" ]; then
-        cp "$TARGET_DIR/$JAR_NAME" .
-        log_info "JAR文件复制完成"
-    else
-        log_error "JAR文件不存在"
-        exit 1
-    fi
+    cp target/utility-*.jar .
 }
 
 # 启动应用
@@ -117,20 +146,6 @@ check_status() {
     fi
 }
 
-# 主流程
-main() {
-    log_info "开始部署 $PROJECT_NAME v$VERSION"
-    check_java
-    create_directories
-    stop_app
-    backup_current
-    build_project
-    copy_jar
-    start_app
-    check_status
-    log_info "部署完成！"
-}
-
 # 显示帮助
 show_help() {
     echo "用法: $0 [选项]"
@@ -139,6 +154,30 @@ show_help() {
     echo "  -s, --stop     仅停止应用"
     echo "  -r, --restart  重启应用"
     echo "  -p, --port     指定端口 (默认: 8194)"
+    echo "  -f, --profile  指定环境 (默认: prod)"
+    echo "  -c, --check    检查环境"
+}
+
+# 检查环境
+check_environment() {
+    log_info "环境检查"
+    check_java
+    check_maven
+    log_info "环境检查完成"
+}
+
+# 主流程
+main() {
+    log_info "开始部署 $PROJECT_NAME v$VERSION"
+    check_java
+    check_maven
+    create_directories
+    stop_app
+    backup_current
+    copy_jar
+    start_app
+    check_status
+    log_info "部署完成！"
 }
 
 # 处理参数
@@ -147,6 +186,8 @@ case "${1:-}" in
     -s|--stop) stop_app; log_info "应用已停止"; exit 0;;
     -r|--restart) stop_app; sleep 2; start_app; check_status; exit 0;;
     -p|--port) PORT="$2"; shift 2;;
+    -f|--profile) PROFILE="$2"; shift 2;;
+    -c|--check) check_environment; exit 0;;
 esac
 
 main 
