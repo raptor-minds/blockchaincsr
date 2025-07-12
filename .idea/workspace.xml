@@ -5,42 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2779f667-f4fd-4d75-b2e7-c136edd59ce0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/blockchain/common/utility/UtilityApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/UtilityApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/blockchain/Block.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/blockchain/Blockchain.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/blockchain/Transaction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/config/DatabaseConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/config/JpaConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/config/OpenApiConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/controller/TransactionController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/model/entity/Block.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/model/entity/Transaction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/model/vo/TransactionStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/model/vo/request/CreateTransactionRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/model/vo/request/UpdateTransactionRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/model/vo/response/BaseResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/repository/BlockRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/repository/TransactionRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/service/TransactionService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/service/impl/TransactionServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/blockchain/utility/util/StringUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/compose.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/init.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/logback-spring.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.blockchain.common.utility.UtilityApplicationTests.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.blockchain.common.utility.UtilityApplicationTests.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/blockchain/common/utility/UtilityApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +39,11 @@
     "settings.editor.selected.configurable": "MavenSettings"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager" selected="Docker.Dockerfile">
     <configuration name="UtilityApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.blockchain.utility.UtilityApplication" />
