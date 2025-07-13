@@ -29,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     @Override
     public Object getTransaction(String transactionId) {
-        return null;
+        return transactionRepository.findByUuid(transactionId).orElse(null);
     }
 
     @Override
@@ -54,8 +54,13 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             transaction.setCreatedAt(TimeUtil.now());
         }
-        
-        transaction.setStatus(TransactionStatus.DE_ACTIVE.getStatus());
+
+        transaction.setEndorser(createTransactionRequest.getEndorser());
+
+        transaction.setStatus(TransactionStatus.ACTIVE.getStatus());
+        String txHash = calculateHash(createTransactionRequest.getSender(), createTransactionRequest.getUuid(),
+                createTransactionRequest.getEndorser(), createTransactionRequest.getTransaction().toString());
+        transaction.setTxHash(txHash);
         transaction.setUuid(createTransactionRequest.getUuid().toString());
 
         // 保存交易 - 自动提交
