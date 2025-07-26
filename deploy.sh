@@ -120,8 +120,7 @@ build_project() {
 # 复制JAR文件
 copy_jar() {
     log_step "复制JAR文件..."
-    cp target/utility-*.jar .
-}
+    }
 
 # 启动应用
 start_app() {

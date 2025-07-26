@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -29,5 +30,5 @@ public class CreateTransactionRequest {
     @NotNull
     private UUID uuid;
 
-    private LocalDate createdTime;
+    private LocalDateTime createdTime;
 }

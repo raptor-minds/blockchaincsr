@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
         
         // 如果请求中没有提供createdTime，使用当前UTC+8时间
         if (createTransactionRequest.getCreatedTime() != null) {
-            transaction.setCreatedAt(createTransactionRequest.getCreatedTime().atStartOfDay());
+            transaction.setCreatedAt(createTransactionRequest.getCreatedTime());
         } else {
             transaction.setCreatedAt(TimeUtil.now());
         }
